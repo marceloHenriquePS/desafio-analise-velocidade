@@ -1,0 +1,6 @@
+:host { display: block; max-width: 1000px; margin: 0 auto; padding: 16px; text-align: center; }
+table { border-collapse: collapse; margin: 8px auto 16px; }
+th, td { border: 1px solid #ccc; padding: 4px 10px; text-align: left; }
+th { background: #f0f0f0; }
+ul { list-style: none; padding: 0; }
+.error { color: red; }
