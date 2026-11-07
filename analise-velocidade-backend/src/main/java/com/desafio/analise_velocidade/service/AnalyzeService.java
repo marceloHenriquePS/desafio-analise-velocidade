@@ -4,6 +4,7 @@ import com.desafio.analise_velocidade.dto.AnalyzeResponse;
 import com.desafio.analise_velocidade.dto.FileResponse;
 import com.desafio.analise_velocidade.entity.Episode;
 import com.desafio.analise_velocidade.entity.Ranking;
+import com.desafio.analise_velocidade.entity.Summary;
 import com.desafio.analise_velocidade.entity.Vehicle;
 import com.desafio.analise_velocidade.enums.GravityType;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,9 @@ public class AnalyzeService {
 
         List<Ranking> rankingList = rankingService.generateRanking(episodes);
 
-        return new AnalyzeResponse(episodes, rankingList, response.invalidLines());
+        Summary summary = new Summary(response.readLines(), response.validLines(), episodes.size());
+
+        return new AnalyzeResponse(episodes, rankingList, response.invalidLines(), summary);
     }
 
     private Map<String, List<Vehicle>> groupVehicles(List<Vehicle> vehicles) {

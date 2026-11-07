@@ -7,6 +7,8 @@ import java.util.List;
 
 public record FileResponse(
         List<Vehicle> vehicles,
-        List<InvalidLines> invalidLines
+        List<InvalidLines> invalidLines,
+        int readLines,
+        int validLines
 ) {
 }

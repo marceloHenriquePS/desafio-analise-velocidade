@@ -32,19 +32,24 @@ public class FileParserService {
 
         String line;
         int numberLine = 1;
+        int readLines = 0;
+        int validLines = 0;
 
         while((line = reader.readLine()) != null) {
             numberLine++;
 
             if (line.isBlank()) continue;
 
+            readLines++;
+
             try {
                 vehicles.add(parseLineToVehicle(line));
+                validLines++;
             } catch (IllegalArgumentException e) {
                 invalidLines.add(new InvalidLines(numberLine, e.getMessage()));
             }
         }
-        return new FileResponse(vehicles, invalidLines);
+        return new FileResponse(vehicles, invalidLines, readLines, validLines);
     }
 
     private Vehicle parseLineToVehicle(String line) {
