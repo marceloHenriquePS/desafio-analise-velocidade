@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: analise-velocidade
+  server:
+    port: 8080
