@@ -1,7 +1,7 @@
 package com.desafio.analise_velocidade.service;
 
 
-import com.desafio.analise_velocidade.dto.AnalyzeResponse;
+import com.desafio.analise_velocidade.dto.FileResponse;
 import com.desafio.analise_velocidade.entity.InvalidLines;
 import com.desafio.analise_velocidade.entity.Vehicle;
 import com.desafio.analise_velocidade.exception.InvalidArchiveException;
@@ -21,7 +21,7 @@ public class FileParserService {
 
     private static final String HEADER = "placa;dataHora;velocidadeKmh;limiteKmh";
 
-    public AnalyzeResponse readCsvArchive(InputStream filePath) throws IOException {
+    public FileResponse readCsvArchive(InputStream filePath) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(filePath));
 
         String header = reader.readLine();
@@ -44,8 +44,7 @@ public class FileParserService {
                 invalidLines.add(new InvalidLines(numberLine, e.getMessage()));
             }
         }
-
-        return new AnalyzeResponse(vehicles, invalidLines);
+        return new FileResponse(vehicles, invalidLines);
     }
 
     private Vehicle parseLineToVehicle(String line) {
@@ -69,7 +68,6 @@ public class FileParserService {
             if (limitVelocity <= 0) throw  new IllegalArgumentException("Limit velocity must be greater than zero.");
 
             return new Vehicle(plate, localDateTime, velocity, limitVelocity);
-
 
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Invalid date: " + values[1].trim());
