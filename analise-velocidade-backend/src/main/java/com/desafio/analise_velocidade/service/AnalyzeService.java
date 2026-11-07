@@ -3,6 +3,7 @@ package com.desafio.analise_velocidade.service;
 import com.desafio.analise_velocidade.dto.AnalyzeResponse;
 import com.desafio.analise_velocidade.dto.FileResponse;
 import com.desafio.analise_velocidade.entity.Episode;
+import com.desafio.analise_velocidade.entity.Ranking;
 import com.desafio.analise_velocidade.entity.Vehicle;
 import com.desafio.analise_velocidade.enums.GravityType;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AnalyzeService {
     private final FileParserService fileParserService;
+    private final RankingService rankingService;
 
     public AnalyzeResponse analyze(InputStream file) throws IOException {
         FileResponse response = fileParserService.readCsvArchive(file);
@@ -33,7 +35,9 @@ public class AnalyzeService {
             episodes.addAll(identifyEpisode(vehicles));
         }
 
-        return new AnalyzeResponse(episodes, response.invalidLines());
+        List<Ranking> rankingList = rankingService.generateRanking(episodes);
+
+        return new AnalyzeResponse(episodes, rankingList, response.invalidLines());
     }
 
     private Map<String, List<Vehicle>> groupVehicles(List<Vehicle> vehicles) {
